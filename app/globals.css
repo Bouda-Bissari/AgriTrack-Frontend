@@ -128,10 +128,61 @@
 }
 
 @theme {
-    /* Polices */
-    --font-clash: "clash";
-    --font-cabinet: "cabinet";
-    --font-poetsen: "PoetsenOne";
+  /* Mode clair */
+  --color-primary-light: #4caf50; /* Vert nature */
+  --color-secondary-light: #ffd700; /* Or, pour le soleil et le blé */
+  --color-accent-light: #8b4513; /* Marron terre */
+  --color-background-light: #f5f5dc; /* Beige clair pour un effet naturel */
+  --color-text-light: #2e2e2e; /* Gris foncé pour le texte */
+
+  /* Mode sombre */
+  --color-primary-dark: #2e7d32; /* Vert plus foncé pour l'ambiance sombre */
+  --color-secondary-dark: #ffc107; /* Jaune doré atténué */
+  --color-accent-dark: #6d4c41; /* Marron plus foncé */
+  --color-background-dark: #1b1b1b; /* Noir profond */
+  --color-text-dark: #e0e0e0; /* Gris clair pour le contraste */
+
+  /* Polices */
+  --font-clash: "clash";
+  --font-cabinet: "cabinet";
+  --font-poetsen: "PoetsenOne";
+
+  /* Palette Nature */
+  --color-nature-50: #F5F9EE;
+  --color-nature-100: #E8F0DA;
+  --color-nature-200: #D1E2B6;
+  --color-nature-300: #B9D38E;
+  --color-nature-400: #A2C468;
+  --color-nature-500: #8BB542; /* Vert principal */
+  --color-nature-600: #6F9334;
+  --color-nature-700: #546F27;
+  --color-nature-800: #384A1A;
+  --color-nature-900: #1C250D;
+
+  /* Palette Earth */
+  --color-earth-50: #F9F6F2;
+  --color-earth-100: #F1EAE0;
+  --color-earth-200: #E2D5C1;
+  --color-earth-300: #D4BFA1;
+  --color-earth-400: #C6A980;
+  --color-earth-500: #B79460; /* Marron principal */
+  --color-earth-600: #9B794E;
+  --color-earth-700: #735A3A;
+  --color-earth-800: #4B3C26;
+  --color-earth-900: #241E13;
+
+  /* Palette Harvest */
+  --color-harvest-50: #FFF8EF;
+  --color-harvest-100: #FEECD6;
+  --color-harvest-200: #FDD6AD;
+  --color-harvest-300: #FCB97D;
+  --color-harvest-400: #FA9B44;
+  --color-harvest-500: #F98012; /* Couleur d'accentuation */
+  --color-harvest-600: #DA6B06;
+  --color-harvest-700: #A55105;
+  --color-harvest-800: #703603;
+  --color-harvest-900: #381B02;
+
 }
 
 @layer base {
@@ -139,6 +190,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background-light text-foreground;
   }
 }
