@@ -3,6 +3,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "clash";
+  src: url("/fonts/ClashDisplay.ttf");
+}
+
+@font-face {
+  font-family: "cabinet";
+  src: url("/fonts/CabinetGrotesk.ttf");
+}
+
+@font-face {
+  font-family: "PoetsenOne";
+  src: url("/fonts/PoetsenOne.ttf");
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -110,6 +125,13 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+@theme {
+    /* Polices */
+    --font-clash: "clash";
+    --font-cabinet: "cabinet";
+    --font-poetsen: "PoetsenOne";
 }
 
 @layer base {
