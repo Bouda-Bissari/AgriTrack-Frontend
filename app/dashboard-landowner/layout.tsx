@@ -32,6 +32,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -43,6 +44,10 @@ export default function RootLayout({
             <CustomBreadcrumb />
           </div>
         </header>
+        <div className="flex-1 overflow-auto px-4 py-2">
+        {children}
+
+        </div>
         {/* <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="bg-muted/50 aspect-video rounded-xl" />
@@ -51,7 +56,6 @@ export default function RootLayout({
           </div>
           <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
         </div> */}
-        {children}
       </SidebarInset>
     </SidebarProvider>
   );

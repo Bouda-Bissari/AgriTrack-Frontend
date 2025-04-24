@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ToasterProvider from "@/components/ToasterProvider";
+import ReactQueryProvider from "@/components/ReactQueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,14 +24,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html lang="en" className="no-scrollbar">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased no-scrollbar`}
-      >
-        <ToasterProvider />
-        {children}
-      </body>
-    </html>
+    <ReactQueryProvider>
+      <html lang="en" className="no-scrollbar">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased no-scrollbar`}
+        >
+          <ToasterProvider />
+          {children}
+        </body>
+      </html>
+    </ReactQueryProvider>
   );
 }

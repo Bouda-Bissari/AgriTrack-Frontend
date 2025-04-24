@@ -5,7 +5,8 @@ import { persist } from "zustand/middleware";
 
 export type User = {
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   role: string;
   avatar: string | null;

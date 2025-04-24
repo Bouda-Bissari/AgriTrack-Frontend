@@ -4,13 +4,31 @@ import { toast } from "react-hot-toast";
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
   withCredentials: true,
-  // headers: {
-  //   Accept: "application/json",
-  //   "Content-Type": "application/json",
-  //   "X-Requested-With": "XMLHttpRequest",
-  // },
 });
 
+// Intercepteur de requête : ajoute le token dans les headers
+apiClient.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      const persisted = localStorage.getItem("user-storage");
+      if (persisted) {
+        try {
+          const parsed = JSON.parse(persisted);
+          const token = parsed?.state?.token;
+          if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+          }
+        } catch (error) {
+          console.error("Erreur de parsing du token depuis le localStorage", error);
+        }
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Intercepteur de réponse : gestion des erreurs
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -21,7 +39,6 @@ apiClient.interceptors.response.use(
         case 401:
           if (!response.config.url?.includes("/login")) {
             toast.error("Session expirée. Veuillez vous reconnecter.");
-           
           }
           break;
         case 403:
