@@ -53,6 +53,7 @@ function Parcels() {
           {lands.map((land: any) => (
             <LandCard
               key={land.id}
+              id={land.id}
               name={land.name}
               city={land.city}
               culture_type={land.cultureType}

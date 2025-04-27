@@ -17,7 +17,7 @@ export const useLogin = () => {
         success: (response) => {
           setUser(response.data.user,response.data.token);
           setToken(response.data.token);
-          route.push("/dashboard")
+          route.push("/dashboard-landowner")
           return "Bienvenu !";
         },
         error: (error) => {

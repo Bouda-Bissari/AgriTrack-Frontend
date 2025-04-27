@@ -1,4 +1,5 @@
 import apiClient from "@/configs/axios";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -45,6 +46,8 @@ export const useUserStore = create<UserStore>()(
       setToken: (token: string) => {
         set({ token });
         apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
+        document.cookie = `auth_token=${token}; path=/; max-age=${60 * 60 * 24 * 7}` // 1 semaine
+
       },
       logout: async () => {
         try {
@@ -52,6 +55,9 @@ export const useUserStore = create<UserStore>()(
         } finally {
           set({ user: null, isAuthenticated: false, token: null });
           useUserStore.persist.clearStorage();
+          document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+
+          
         }
       },
     }),

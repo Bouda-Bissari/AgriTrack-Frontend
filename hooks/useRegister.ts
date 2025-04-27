@@ -17,7 +17,7 @@ export const useRegister = () => {
         success: (response) => {
           setUser(response.data.user,response.data.token);
           setToken(response.data.token)
-          route.push("/dashboard");
+          route.push("/dashboard-landowner");
           return "Bienvenue sur AgriTrack ! Compte créé avec succès.";
         },
         // error: (error) => {
