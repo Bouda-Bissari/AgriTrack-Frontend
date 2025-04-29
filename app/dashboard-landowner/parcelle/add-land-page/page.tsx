@@ -20,7 +20,6 @@ export default function AddLandPage() {
     area: 0,
     latitude: "",
     longitude: "",
-    soil_type: "",
     // irrigation_system: false,
     ownershipdoc: null,
     // description: "",
@@ -34,6 +33,11 @@ export default function AddLandPage() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (location) => {
+          setFormData((prev) => ({
+            ...prev,
+            latitude: location.coords.latitude.toString(),
+            longitude: location.coords.longitude.toString(),
+          }));
           setCurrentPosition([
             location.coords.latitude,
             location.coords.longitude,
@@ -110,7 +114,6 @@ export default function AddLandPage() {
             area: 0,
             latitude: "",
             longitude: "",
-            soil_type: "",
             ownershipdoc: null,
           });
           return "Terrain ajouté avec succès !";
@@ -241,7 +244,7 @@ export default function AddLandPage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="latitude" className={labelClass}>
                 Latitude
@@ -270,9 +273,9 @@ export default function AddLandPage() {
                 className={inputClass}
               />
             </div>
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <label htmlFor="soil_type" className={labelClass}>
               Type de sol
             </label>
@@ -284,7 +287,7 @@ export default function AddLandPage() {
               onChange={handleChange}
               className={inputClass}
             />
-          </div>
+          </div> */}
 
           {/* <div className="flex items-center gap-2">
             <input
