@@ -11,21 +11,22 @@ export const useRegister = () => {
   const route = useRouter();
   const register = async (firstName: string,lastName:string, email: string, password: string,role:string) => {
     return toast.promise(
-      apiClient.post("/register", { firstName, lastName, email, password,role }),
+      apiClient.post("/register", { firstName, lastName, email, password, role }),
       {
         loading: "Création du compte en cours...",
         success: (response) => {
-          setUser(response.data.user,response.data.token);
+          setUser(response.data.user, response.data.token);
           setToken(response.data.token)
           route.push("/dashboard-landowner");
           return "Bienvenue sur AgriTrack ! Compte créé avec succès.";
         },
-        // error: (error) => {
-        //   return (
-        //     error.response?.data?.message ||
-        //     "Échec de l'inscription. Veuillez réessayer."
-        //   );
-        // },
+        error: (error) => {
+          console.log(error);
+          return (
+            error.response?.data?.message ||
+            "Échec de l'inscription. Veuillez réessayer."
+          );
+        },
       },
       {
         success: { duration: 2000, icon: "🎉" },

@@ -16,23 +16,23 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 
-const links = [
-  {
-    title: "Parcelles",
-    href: "/dashboard-landowner/parcelle",
-    icon: Leaf,
-  },
-  {
-    title: "Interventions",
-    href: "/dashboard-landowner/interventions",
-    icon: Tractor,
-  },
-  {
-    title: "Localisation",
-    href: "/dashboard-landowner/map",
-    icon: MapPin,
-  },
-];
+  const links = [
+    {
+      title: "Parcelles",
+      href: "/dashboard-landowner/parcelle",
+      icon: Leaf,
+    },
+    {
+      title: "Interventions",
+      href: "/dashboard-landowner/interventions",
+      icon: Tractor,
+    },
+    {
+      title: "Localisation",
+      href: "/dashboard-landowner/map",
+      icon: MapPin,
+    },
+  ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
@@ -69,7 +69,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem key={title}>
                   <SidebarMenuButton asChild isActive={isActive}>
                     <Link
-                      href={href}
+                      href={href} 
                       className="flex items-center gap-2 font-medium"
                     >
                       <Icon className="size-4" />

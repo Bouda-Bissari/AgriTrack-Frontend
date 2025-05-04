@@ -11,6 +11,9 @@ export type User = {
   email: string;
   role: string;
   avatar: string | null;
+  phoneNumber?: string | null;
+  bio?: string | null;
+  image?: string | null;
 } | null;
 
 type UserStore = {
@@ -19,6 +22,7 @@ type UserStore = {
   isAuthenticated: boolean;
   setUser: (user: User, token: string) => void;
   setToken: (token: string) => void; // Ajout de setToken
+  updateUser: (updatedFields: Partial<User>) => void;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
 };
@@ -49,6 +53,14 @@ export const useUserStore = create<UserStore>()(
         document.cookie = `auth_token=${token}; path=/; max-age=${60 * 60 * 24 * 7}` // 1 semaine
 
       },
+      updateUser: (updatedFields: Partial<User>) => {
+        set((state: { user: any; }) => ({
+          user: {
+            ...state.user,
+            ...updatedFields,
+          },
+        }));
+      },      
       logout: async () => {
         try {
           await apiClient.post("/logout");

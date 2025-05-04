@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function Workspace() {
+export default function  Workspace() {
   const user = useUserStore((state) => state.user);
   const { logout } = useUserStore();
   const router = useRouter();
@@ -40,9 +40,7 @@ export default function Workspace() {
       router.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
-      
     }
-
   };
   return (
     <DropdownMenu>
@@ -71,7 +69,7 @@ export default function Workspace() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={()=> router.push("/dashboard-landowner/account/profile")}>
           <Settings2 className="mr-1" /> modifier mon profil
         </DropdownMenuItem>
 
