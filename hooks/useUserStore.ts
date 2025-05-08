@@ -13,7 +13,7 @@ export type User = {
   avatar: string | null;
   phoneNumber?: string | null;
   bio?: string | null;
-  image?: string | null;
+  profilImage?: string | null;
 } | null;
 
 type UserStore = {

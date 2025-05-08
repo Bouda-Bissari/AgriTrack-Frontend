@@ -1,31 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { User, KeyRound, Camera } from 'lucide-react';
-import Link from 'next/link';
-import { usePathname } from "next/navigation";
+import { X, Camera } from 'lucide-react';
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/hooks/useUserStore";
 import { useUpdate } from "@/hooks/useUpdate";
+import ResponsiveSideBarMenu from "@/components/ResponsiveSideBarMenu";
+import ResponsiveNavMenu from "@/components/ResponsiveNavMenu";
+import {UpdateProfilForm} from "@/components/updateProfilForm";
 
-const links = [
-  {
-    title: "Profil",
-    href: "/dashboard-landowner/account/profile",
-    icon: User,
-  },
-  {
-    title: "Password",
-    href: "/dashboard-landowner/account/password",
-    icon: KeyRound,
-  },
-];
 
 const Profile = () => {
+  const [profilForm, setProfilForm] = useState(false);
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const pathname = usePathname();
   const user = useUserStore((state) => state.user);
   const {updateProfil} = useUpdate();
 
@@ -33,9 +22,9 @@ const Profile = () => {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     bio: "",
-    image: "",
+    profilImage: "",
   });
 
   useEffect(() => {
@@ -44,9 +33,9 @@ const Profile = () => {
         firstName: user.firstName || "",
         lastName: user.lastName || "",
         email: user.email || "",
-        phone: user.phoneNumber || "",
+        phoneNumber: user.phoneNumber || "",
         bio: user.bio || "",
-        image: user.image || "",
+        profilImage: user.profilImage || "",
       });
     }
   }, [user]);
@@ -56,7 +45,7 @@ const Profile = () => {
     if (file) {
       const imageURL = URL.createObjectURL(file);
       setImage(imageURL);
-      setForm((prev) => ({ ...prev, image: imageURL}))
+      setForm((prev) => ({ ...prev, profilImage: imageURL}))
     }
   };
 
@@ -65,61 +54,36 @@ const Profile = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      console.log(form);
-  
-      e.preventDefault();
-  
-      await updateProfil(form);
-    };
-
+  const inputClass =
+  "w-full h-10 text-black bg-gray-300/50 p-2 font-bold rounded-lg outline-none";
   return (
-    <div className="w-full h-full px-2 py-4 flex gap-5">
+    <div className="w-full h-full px-2 py-4 flex flex-col md:flex-row gap-5 ">
 
       {/* sidebar */}
-      <div className="h-full w-50 p-2 border-r">
-        {links.map(({ title, href, icon: Icon }) => (
-          <Link
-            key={title}
-            href={href}
-            className={`flex w-full h-8 items-center justify-between px-2 rounded-r-lg mb-2 gap-4 
-              ${pathname === href
-                ? "border-l-3 border-[var(--color-nature-600)] bg-[var(--sidebar-accent)] text-[var(--sidebar-accent-foreground)]"
-                : ""}`}
-          >
-            {title}
-            <Icon className="size-4" />
-          </Link>
-        ))}
+      <div className="hidden md:block h-full border-r">
+        <ResponsiveSideBarMenu/>
+      </div>
+
+      <div className="md:hidden w-full">
+        <ResponsiveNavMenu/>
       </div>
 
       {/* Profil */}
       <div className="h-full w-full">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="w-full flex items-center justify-between mb-5">          
           <h1 className="text-2xl font-bold mb-2">Mon Profil</h1>
+          <UpdateProfilForm />
+        </div>
+
+        <form className="flex flex-col gap-4">
 
           <div className="w-full rounded-lg flex items-center gap-4 px-4 py-2 border">
             {/* image */}
             <div className="relative w-18 h-18">
               <img
-                src={form.image || "/images/agri1.jpg"}
+                src={form.profilImage || "/images/agri1.jpg"}
                 alt="photo profil"
                 className="object-cover w-18 h-18 rounded-full border-2"
-              />
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-1 bg-white p-1 rounded-full shadow-sm hover:bg-gray-100 cursor-pointer"
-                type="button"
-              >
-                <Camera className="size-3" />
-              </button>
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleImageChange}
-                ref={fileInputRef}
-                className="hidden"
               />
             </div>
             <div>
@@ -134,52 +98,57 @@ const Profile = () => {
           <div className="w-full rounded-lg flex flex-col gap-5 p-4 border">
             <h1 className="font-bold text-lg">Informations personnelles</h1>
 
-            <div className="flex gap-4 items-center">
+            <div className="flex md:flex-row flex-col gap-4 md:items-center">
               <div className="flex flex-col gap-1">
                 <label htmlFor="lastName" className="">Nom</label>
                 <input
+                  readOnly
                   type="text"
                   name="lastName"
                   id="lastName"
                   value={form.lastName}
                   onChange={handleInput}
-                  className="w-80 h-10 focus:text-black text-gray-500 border border-gray-300 px-2 py-1 font-bold rounded-lg outline-none focus:border-2 focus:border-[var(--sidebar-accent-foreground)]/80 focus:ring-3 ring-[var(--sidebar-accent)]  "
+                  disabled  
+                  className={inputClass}
                 />
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="firstName" className="">Prénoms</label>
                 <input
+                  readOnly
                   type="text"
                   name="firstName"
                   id="firstName"
                   value={form.firstName}
                   onChange={handleInput}
-                  className="w-80 h-10 focus:text-black text-gray-500 border border-gray-300 px-2 py-1 font-bold rounded-lg outline-none focus:border-2 focus:border-[var(--sidebar-accent-foreground)]/80 focus:ring-3 ring-[var(--sidebar-accent)]"
+                  className={inputClass}
                 />
               </div>
             </div>
 
-            <div className="flex gap-4 items-center">
+            <div className="flex md:flex-row flex-col gap-4 md:items-center">
               <div className="flex flex-col gap-1">
                 <label htmlFor="email" className="">Adresse Email</label>
                 <input
+                  readOnly
                   type="email"
                   name="email"
                   id="email"
                   value={form.email}
                   onChange={handleInput}
-                  className="w-80 h-10 focus:text-black text-gray-500 border border-gray-300 px-2 py-1 font-bold rounded-lg outline-none focus:border-2 focus:border-[var(--sidebar-accent-foreground)]/80 focus:ring-3 ring-[var(--sidebar-accent)] "
+                  className={inputClass}
                 />
               </div>
               <div className="flex flex-col gap-1">
                 <label htmlFor="phone" className="">Numéro de Téléphone</label>
                 <input
+                  readOnly
                   type="number"
                   name="phone"
                   id="phone"
-                  value={form.phone}
+                  value={form.phoneNumber}
                   onChange={handleInput}
-                  className="w-80 h-10 focus:text-black text-gray-500 border border-gray-300 px-2 py-1 font-bold rounded-lg outline-none focus:border-2 focus:border-[var(--sidebar-accent-foreground)]/80 focus:ring-3 ring-[var(--sidebar-accent)]"
+                  className={inputClass}
                 />
               </div>
             </div>
@@ -187,16 +156,15 @@ const Profile = () => {
             <div className="flex flex-col gap-1">
               <label htmlFor="bio" className="">Bio</label>
               <textarea
+                readOnly
                 name="bio"
                 id="bio"
                 value={form.bio}
                 onChange={handleInput}
-                className="min-h-10 max-h-20 focus:text-black text-gray-500 border border-gray-300 px-2 py-1 font-bold rounded-lg outline-none focus:border-2 focus:border-[var(--sidebar-accent-foreground)]/80 focus:ring-3 ring-[var(--sidebar-accent)]"
-              ></textarea>
+                className={inputClass}
+                ></textarea>
             </div>
           </div>
-
-          <Button type="submit" className="self-end w-50 bg-black">Enregistrer le profil</Button>
         </form>
       </div>
     </div>

@@ -10,16 +10,17 @@ export const useUpdate = () => {
         firstName?: string,
         lastName?: string,
         email?: string,
-        phone?: number,
+        phoneNumber?: string,
         bio?: string,
-        image?: string,
+        profilImage?: string,
     }) => {
         return toast.promise(
-            apiClient.put("user/update", updateData),
+            apiClient.put("/user/update", updateData),
             {
                 loading: "Mise à jour du profil en cours ...",
                 success: (response) => {
                     updateUser(response.data.user); //met à jour le store local
+                    console.log(response.data);
                     return "profil mis à jour ! 👍 ";
                 },
                 error: (err) => {

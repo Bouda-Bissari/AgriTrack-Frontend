@@ -256,9 +256,11 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    @apply font-cabinet;
   }
   body {
     @apply bg-background-light text-foreground;
+    @apply font-cabinet;
     letter-spacing: var(--tracking-normal);
   }
 
