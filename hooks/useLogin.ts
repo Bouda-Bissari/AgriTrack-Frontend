@@ -23,7 +23,7 @@ export const useLogin = () => {
           if (user.role === "admin") {
             route.push("/dashboard/admin/statistics");
           } else {
-            route.push("/dashboard/landowner/statistics");
+            route.push("/dashboard/landowner");
           }
           return "Bienvenu !";
         },

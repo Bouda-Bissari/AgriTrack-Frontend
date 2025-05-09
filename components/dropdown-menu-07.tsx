@@ -69,7 +69,7 @@ export default function  Workspace() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={()=> router.push("/dashboard-landowner/account/profile")}>
+        <DropdownMenuItem onClick={()=> router.push("/dashboard/profile")}>
           <Settings2 className="mr-1" /> modifier mon profil
         </DropdownMenuItem>
 

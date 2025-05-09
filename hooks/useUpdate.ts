@@ -1,40 +1,93 @@
-import toast from "react-hot-toast";
-import { useUserStore } from "./useUserStore"
-import apiClient from "@/configs/axios";
+"use client";
 
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useUserStore } from "@/hooks/useUserStore";
+import apiClient from "@/configs/axios";
+import { useRouter } from "next/navigation";
+
+interface UpdateProfileData {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phoneNumber?: string;
+  bio?: string;
+  profilImage?: File | null;
+}
+
+interface UpdatePasswordData {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
 
 export const useUpdate = () => {
-    const updateUser = useUserStore((state: any) => state.updateUser);
+  const [loading, setLoading] = useState(false);
+  const updateUser = useUserStore((state) => state.updateUser);
+  const router = useRouter();
 
-    const updateProfil = async (updateData: {
-        firstName?: string,
-        lastName?: string,
-        email?: string,
-        phoneNumber?: string,
-        bio?: string,
-        profilImage?: string,
-    }) => {
-        return toast.promise(
-            apiClient.put("/user/update", updateData),
-            {
-                loading: "Mise à jour du profil en cours ...",
-                success: (response) => {
-                    updateUser(response.data.user); //met à jour le store local
-                    console.log(response.data);
-                    return "profil mis à jour ! 👍 ";
-                },
-                error: (err) => {
-                    console.error(err);
-                    return (err.response?.data?.message || "Echèc de la mise à jour du profil. Veuillez réessayer.");
-                }
-            },
-            {
-                success: {duration: 2000, icon: "✅" },
-                error : {duration: 4000},
-                style: {minWidth: "250px"}
+  const updateProfile = async (data: FormData) => {
+    try {
+      setLoading(true);
+      
+      return await toast.promise(
+        apiClient.post("/user/update-profile", data, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }),
+        {
+          loading: "Mise à jour du profil...",
+          success: (response) => {
+            if (response.data?.user) {
+              updateUser(response.data.user);
             }
-        );
-    };
+            return "Profil mis à jour avec succès";
+          },
+          error: (error) => {
+            return error.response?.data?.message || "Échec de la mise à jour";
+          },
+        },
+        {
+          success: { duration: 2000, icon: "✅" },
+          error: { duration: 4000 },
+        }
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return {updateProfil}
+  const updatePassword = async (passwordData: UpdatePasswordData) => {
+    try {
+      setLoading(true);
+      
+      return await toast.promise(
+        apiClient.post("/user/update-password", passwordData),
+        {
+          loading: "Changement du mot de passe...",
+          success: () => {
+            // Déconnexion après changement de mot de passe
+            router.push("/login");
+            return "Mot de passe mis à jour - Veuillez vous reconnecter";
+          },
+          error: (error) => {
+            return error.response?.data?.message || "Échec du changement de mot de passe";
+          },
+        },
+        {
+          success: { duration: 3000, icon: "🔒" },
+          error: { duration: 4000 },
+        }
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    updateProfile,
+    updatePassword,
+    loading,
+  };
 };
