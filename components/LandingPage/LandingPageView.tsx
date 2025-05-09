@@ -6,7 +6,7 @@ import ThirdHero from "./LandingModules/ThirdHero"
 const LandingPageView = () => {
   return (
     <>
-        <div className=" bg-[#E8FCC2] px-20 flex flex-col justify-center items-center">
+        <div className=" bg-[#E8FCC2] px-20 flex flex-col justify-center items-center pb-8">
             <Header/>
             <HeroTop/>
             <SecondHero/>
