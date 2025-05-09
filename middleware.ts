@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Liste des routes publiques et des fichiers statiques à exclure
-const PUBLIC_ROUTES = ["/login", "/register"];
+const PUBLIC_ROUTES = ["/login", "/register", "/"];
 const STATIC_FILES = [
   "/_next/static",
   "/_next/image",

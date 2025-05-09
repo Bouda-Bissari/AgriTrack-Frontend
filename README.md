@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/agritrack-banner.png" width="600" alt="AgriTrack Fullstack Banner" />
+  <img src="public/image.png"  alt="AgriTrack Fullstack Banner" />
 </p>
 
 <h1 align="center">🌾 AgriTrack Fullstack</h1>

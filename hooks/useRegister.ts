@@ -13,7 +13,6 @@ export const useRegister = () => {
     lastName: string,
     email: string,
     password: string,
-    role: string
   ) => {
     return toast.promise(
       apiClient.post("/register", {
@@ -21,7 +20,6 @@ export const useRegister = () => {
         lastName,
         email,
         password,
-        role,
       }),
       {
         loading: "Création du compte en cours...",

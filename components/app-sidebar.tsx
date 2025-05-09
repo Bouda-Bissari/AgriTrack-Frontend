@@ -19,8 +19,8 @@ import { useUserStore } from "@/hooks/useUserStore";
 
 const links = [
   {
-    title: "statistiques",
-    href: "/dashboard/landowner/statistics",
+    title: "dashboard",
+    href: "/dashboard",
     icon: ChartBar,
   },
   {
