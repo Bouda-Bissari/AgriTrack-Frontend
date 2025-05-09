@@ -18,6 +18,10 @@
   src: url("/fonts/PoetsenOne.ttf");
 }
 
+
+/* app/globals.css */
+
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -137,6 +141,21 @@
   --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
   --tracking-normal: 0em;
+
+
+
+  --color-planting: #8884d8;
+  --color-treatment: #82ca9d;
+  --color-harvest: #ffc658;
+  --color-maintenance: #ff8042;
+  --color-other: #a4de6c;
+  
+  /* Vous pouvez aussi définir les variables pour les charts si nécessaire */
+  --chart-1: 136, 132, 216; /* équivalent à #8884d8 en HSL */
+  --chart-2: 130, 202, 157; /* #82ca9d */
+  --chart-3: 255, 198, 88;  /* #ffc658 */
+  --chart-4: 255, 128, 66;  /* #ff8042 */
+  --chart-5: 164, 222, 108; /* #a4de6c */
 }
 
 .dark {
@@ -250,6 +269,9 @@
   --color-harvest-700: #A55105;
   --color-harvest-800: #703603;
   --color-harvest-900: #381B02;
+
+
+
 
 }
 

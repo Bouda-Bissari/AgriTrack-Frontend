@@ -74,7 +74,7 @@ export default function UpdateLandPage() {
   useEffect(() => {
     if (isError) {
       toast.error("Erreur de chargement du terrain");
-      router.push("dashboard-landowner/parcelle");
+      router.push("dashboard/landowner/parcelle");
     }
   }, [isError, router]);
 
@@ -128,13 +128,13 @@ export default function UpdateLandPage() {
       });
       const rep = await apiClient.post(`/lands/${id}`, formData);
       console.log("FormData:", formData);
-        console.log("Response:", rep.data);
+      console.log("Response:", rep.data);
       return rep;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["land", id] });
       toast.success("Terrain mis à jour avec succès !");
-    //   router.push("/dashboard-landowner/parcelle");
+      //   router.push("/dashboard/landowner/parcelle");
     },
     onError: (error: any) => {
       toast.error(

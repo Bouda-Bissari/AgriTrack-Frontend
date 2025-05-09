@@ -1,4 +1,3 @@
-// hooks/useRegister.ts
 import { toast } from "react-hot-toast";
 import { useUserStore } from "./useUserStore";
 import apiClient from "@/configs/axios";
@@ -9,15 +8,27 @@ export const useRegister = () => {
   const setToken = useUserStore((state: any) => state.setToken);
 
   const route = useRouter();
-  const register = async (firstName: string,lastName:string, email: string, password: string,role:string) => {
+  const register = async (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    role: string
+  ) => {
     return toast.promise(
-      apiClient.post("/register", { firstName, lastName, email, password, role }),
+      apiClient.post("/register", {
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+      }),
       {
         loading: "Création du compte en cours...",
         success: (response) => {
           setUser(response.data.user, response.data.token);
-          setToken(response.data.token)
-          route.push("/dashboard-landowner");
+          setToken(response.data.token);
+          route.push("/dashboard");
           return "Bienvenue sur AgriTrack ! Compte créé avec succès.";
         },
         error: (error) => {

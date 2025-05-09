@@ -1,14 +1,25 @@
 import React from "react";
 import { TextLoop } from "./motion-primitives/text-loop";
 
-const AuthLeft = () => {
+type AuthLeftProps = {
+  imageUrl?: string;
+  flexSize?: string; 
+};
+
+const AuthLeft: React.FC<AuthLeftProps> = ({
+  imageUrl = "/images/photo5.webp",
+  flexSize = "md:flex-3",
+}) => {
   return (
     <div
-      className="bg-green-500 rounded-lg hidden md:flex-3 h-full relative overflow-hidden md:grid place-content-center"
-      style={{ backgroundImage: "url('/images/photo5.webp')" }}
+      className={`bg-green-500 rounded-lg hidden ${flexSize} h-full relative overflow-hidden md:grid place-content-center`}
+      style={{ backgroundImage: `url('${imageUrl}')` }}
     >
       <div className="bg-black/60 absolute inset-0 z-10"></div>
-      <div className="w-36 h-10 rounded-lg bg-background-light uppercase font-bold text-black absolute z-50 grid place-content-center top-3 left-3">AgriTrack</div>
+
+      <div className="w-36 h-10 rounded-lg bg-background-light uppercase font-bold text-black absolute z-50 grid place-content-center top-3 left-3">
+        AgriTrack
+      </div>
 
       <p className="inline-flex whitespace-pre-wrap text-white text-2xl font-bold uppercase z-50 font-clash">
         Des outils modernes pour{" "}

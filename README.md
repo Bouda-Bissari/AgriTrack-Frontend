@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <img src="public/agritrack-banner.png" width="600" alt="AgriTrack Fullstack Banner" />
+</p>
 
-## Getting Started
+<h1 align="center">🌾 AgriTrack Fullstack</h1>
 
-First, run the development server:
+<p align="center">
+  Plateforme complète de gestion agricole avec Next.js (frontend) et Laravel (backend)
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🚀 À propos
+
+AgriTrack est une solution complète pour :
+- **Frontend** : Application Next.js moderne avec App Router
+- **Backend** : API REST Laravel avec Sanctum
+- **Fonctionnalités** :
+  - Gestion des parcelles agricoles
+  - Suivi des cultures
+  - Planification des interventions
+  - Tableaux de bord analytiques
+
+---
+
+## 🧩 Architecture
+
+```mermaid
+graph TD
+    A[Frontend Next.js] -->|API Calls| B[Backend Laravel]
+    B --> C[(Database MySQL)]
+    D[PHPMyAdmin] --> C
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠 Technologies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Composant | Stack |
+|-----------|-------|
+| **Frontend** | Next.js 14, TypeScript, Tailwind CSS, Geist Font |
+| **Backend** | Laravel 12, PHP 8.3, MySQL, Sanctum |
+| **Infra** | Docker, Nginx, PHPMyAdmin |
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🐳 Démarrage avec Docker
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prérequis
+- Docker 20+
+- Docker Compose 2+
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. Cloner le projet
+```bash
+git clone https://github.com/votre-repo/agritrack-fullstack.git
+cd agritrack-fullstack
+```
 
-## Deploy on Vercel
+### 2. Configuration de l'environnement
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env.local
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Démarrer les containers
+```bash
+docker-compose up -d --build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Initialiser le backend
+```bash
+docker exec agritrack-backend composer install
+docker exec agritrack-backend php artisan key:generate
+docker exec agritrack-backend php artisan migrate --seed
+```
+
+---
+
+## 🌐 Accès aux services
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| Frontend | http://localhost:3000 | - |
+| Backend API | http://localhost:8000 | - |
+| PHPMyAdmin | http://localhost:8080 | root:rootpassword |
+
+---
+
+## 🖥 Développement local (sans Docker)
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Backend
+```bash
+cd backend
+composer install
+php artisan serve
+```
+
+---
+
+## 🔧 Commandes utiles
+
+### Frontend
+```bash
+# Builder l'image Docker
+docker build -t agritrack-frontend .
+
+# Accéder au container
+docker exec -it agritrack-frontend sh
+```
+
+### Backend
+```bash
+# Exécuter les tests
+docker exec agritrack-backend php artisan test
+
+# Voir les routes
+docker exec agritrack-backend php artisan route:list
+```
+
+---
+
+## 🌱 Données de démo
+
+Le système inclut des données de test :
+- 1 administrateur (`admin@agritrack.com` / `password`)
+- 10 parcelles avec cultures
+- 50 interventions historiques
+
+---
+
+## 🚀 Déploiement
+
+### Vercel (Frontend)
+```bash
+vercel --prod
+```
+
+### Laravel Forge (Backend)
+Configurer avec :
+- PHP 8.3
+- Queue Workers
+- Storage link
+
+---
+
+
+

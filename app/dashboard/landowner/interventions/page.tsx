@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Trash, Pencil } from "lucide-react";
 import ConfirmDialog from "@/components/alert-dialog-01";
 import UpdateInterventionStatusSwitch from "@/components/switch-01";
-import { debounce } from "lodash";
 
 interface Intervention {
   id: number;
@@ -75,17 +74,17 @@ export default function InterventionsPage() {
   };
 
   // Debounce sur le searchTitle (300ms)
-  useEffect(() => {
-    const debouncedRefetch = debounce(() => {
-      refetch();
-    }, 300);
+  // useEffect(() => {
+  //   const debouncedRefetch = debounce(() => {
+  //     refetch();
+  //   }, 300);
 
-    debouncedRefetch();
+  //   debouncedRefetch();
 
-    return () => {
-      debouncedRefetch.cancel();
-    };
-  }, [searchTitle, startDate, endDate, currentPage]);
+  //   return () => {
+  //     debouncedRefetch.cancel();
+  //   };
+  // }, [searchTitle, startDate, endDate, currentPage]);
 
   const interventions: Intervention[] = Array.isArray(data?.data?.data)
     ? data.data?.data
@@ -99,16 +98,24 @@ export default function InterventionsPage() {
       </h1>
 
       {/* Formulaire de recherche */}
-      <div className="mb-6 grid grid-cols-1 md:grid-cols-4 place-content-center 9 gap-4">
-        <input
-          type="text"
-          placeholder="Rechercher par titre..."
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
-          className="border rounded-lg p-2 w-full"
-        />
+      <div className="mb-6 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-end">
         <div className="flex flex-col">
-          <label>Entrer la date de debut</label>
+          <label className="mb-1 text-sm font-medium text-zinc-700">
+            Titre
+          </label>
+          <input
+            type="text"
+            placeholder="Rechercher par titre..."
+            value={searchTitle}
+            onChange={(e) => setSearchTitle(e.target.value)}
+            className="border rounded-lg p-2 w-full"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="mb-1 text-sm font-medium text-zinc-700">
+            Date de début
+          </label>
           <input
             type="date"
             value={startDate}
@@ -116,19 +123,28 @@ export default function InterventionsPage() {
             className="border rounded-lg p-2 w-full text-zinc-500"
           />
         </div>
-<div className="flex flex-col">
-<label>Entrer un date de fin</label>
-<input
-          type="date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-          className="border rounded-lg p-2 w-full text-zinc-500"
-        />
-</div>
-        
-        <Button onClick={handleResetFilters} variant="outline">
-          Réinitialiser
-        </Button>
+
+        <div className="flex flex-col">
+          <label className="mb-1 text-sm font-medium text-zinc-700">
+            Date de fin
+          </label>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="border rounded-lg p-2 w-full text-zinc-500"
+          />
+        </div>
+
+        <div className="flex justify-start md:justify-end">
+          <Button
+            onClick={handleResetFilters}
+            variant="outline"
+            className="w-full md:w-auto"
+          >
+            Réinitialiser
+          </Button>
+        </div>
       </div>
 
       {/* Affichage des interventions */}
@@ -206,7 +222,7 @@ export default function InterventionsPage() {
                   onClick={(e) => {
                     e.stopPropagation();
                     router.push(
-                      `/dashboard-landowner/interventions/update/${intervention.id}`
+                      `/dashboard/landowner/interventions/update/${intervention.id}`
                     );
                   }}
                 >

@@ -1,8 +1,7 @@
 "use client";
-
 import * as React from "react";
 import { usePathname } from "next/navigation";
-import { PlaneTakeoff, Leaf, Tractor, MapPin } from "lucide-react";
+import { PlaneTakeoff, Leaf, Tractor, MapPin, UserIcon, ChartBar } from "lucide-react";
 
 import {
   Sidebar,
@@ -15,27 +14,55 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { useUserStore } from "@/hooks/useUserStore";
 
-  const links = [
-    {
-      title: "Parcelles",
-      href: "/dashboard-landowner/parcelle",
-      icon: Leaf,
-    },
-    {
-      title: "Interventions",
-      href: "/dashboard-landowner/interventions",
-      icon: Tractor,
-    },
-    {
-      title: "Localisation",
-      href: "/dashboard-landowner/map",
-      icon: MapPin,
-    },
-  ];
+
+const links = [
+  {
+    title: "statistiques",
+    href: "/dashboard/landowner/statistics",
+    icon: ChartBar,
+  },
+  {
+    title: "Parcelles",
+    href: "/dashboard/landowner/parcelle",
+    icon: Leaf,
+  },
+  {
+    title: "Interventions",
+    href: "/dashboard/landowner/interventions",
+    icon: Tractor,
+  },
+  {
+    title: "Localisation",
+    href: "/dashboard/landowner/map",
+    icon: MapPin,
+  },
+  {
+    title: "statistiques",
+    href: "/dashboard/admin/statistics",
+    icon: ChartBar,
+  },
+ 
+  {
+    title: "liste des utilisateurs",
+    href: "/dashboard/admin/users/list",
+    icon: UserIcon,
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
+  const user = useUserStore((state: any) => state.user);
+
+    // Filtrage conditionnel basé sur le rôle
+    const filteredLinks = links.filter((link) => {
+      const isAdminRoute = link.href.includes("/dashboard/admin/");
+      if (isAdminRoute) {
+        return user?.role === "admin";
+      }
+      return true;
+    });
 
   return (
     <Sidebar {...props}>
@@ -63,7 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {links.map(({ title, href, icon: Icon }) => {
+            {filteredLinks.map(({ title, href, icon: Icon }) => {
               const isActive = pathname === href;
               return (
                 <SidebarMenuItem key={title}>

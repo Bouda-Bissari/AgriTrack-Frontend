@@ -49,20 +49,16 @@ const customIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
-
-
-
 export default function LandDetails() {
   const user = useUserStore((state) => state.user);
   const params = useParams();
   const landId = params?.id as string;
   const router = useRouter();
 
-
   async function handleDeleteIntervention(interventionId: number) {
     try {
       await apiClient.delete(`/interventions/${interventionId}`);
-      router.refresh(); 
+      router.refresh();
     } catch (error) {
       console.error("Erreur lors de la suppression :", error);
       alert("Erreur lors de la suppression !");
@@ -130,7 +126,7 @@ export default function LandDetails() {
     : [];
 
   const handleUpdateLand = (id: number) => {
-    router.push(`/dashboard-landowner/parcelle/update/${id}`);
+    router.push(`/dashboard/landowner/parcelle/update/${id}`);
   };
   if (isLoading) return <p>Chargement...</p>;
   if (isError || !land) return <p>Erreur lors du chargement du terrain.</p>;
@@ -200,92 +196,116 @@ export default function LandDetails() {
           </Card>
 
           <div className="w-full bg-sidebar-accent rounded-xl p-4 flex flex-col">
-  <h1 className="text-center text-3xl font-bold font-poetsen text-white bg-sidebar-foreground p-4 rounded-lg mb-4">
-    Les Interventions associées
-  </h1>
+            <h1 className="text-center text-3xl font-bold font-poetsen text-white bg-sidebar-foreground p-4 rounded-lg mb-4">
+              Les Interventions associées
+            </h1>
 
-  {isLoadingIntervention ? (
-    <div className="text-center text-white py-6">Chargement...</div>
-  ) : isErrorIntervention ? (
-    <div className="text-center text-red-400 py-6">Erreur de chargement.</div>
-  ) : interventions.length === 0 ? (
-    <div className="text-center text-white py-6">
-      Aucune intervention trouvée.
-    </div>
-  ) : (
-    <div className="flex flex-col gap-3 overflow-y-auto max-h-[300px] pr-2">
-      {(showAll ? interventions : interventions.slice(0, 3)).map((intervention) => (
-        <div
-          key={intervention.id}
-          className="flex flex-col bg-accent-light p-4 rounded-lg shadow  transition-all duration-300 ease-in-out"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="p-2 bg-gray-200 rounded-full">
-                <span role="img" aria-label="icon">🌱</span>
+            {isLoadingIntervention ? (
+              <div className="text-center text-white py-6">Chargement...</div>
+            ) : isErrorIntervention ? (
+              <div className="text-center text-red-400 py-6">
+                Erreur de chargement.
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-white">{intervention.type}</h3>
-                <p className="text-gray-300 text-sm">🌿 {intervention.title}</p>
+            ) : interventions.length === 0 ? (
+              <div className="text-center text-white py-6">
+                Aucune intervention trouvée.
               </div>
-            </div>
-            {/* <Badge
+            ) : (
+              <div className="flex flex-col gap-3 overflow-y-auto max-h-[300px] pr-2">
+                {(showAll ? interventions : interventions.slice(0, 3)).map(
+                  (intervention) => (
+                    <div
+                      key={intervention.id}
+                      className="flex flex-col bg-accent-light p-4 rounded-lg shadow  transition-all duration-300 ease-in-out"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="p-2 bg-gray-200 rounded-full">
+                            <span role="img" aria-label="icon">
+                              🌱
+                            </span>
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold text-white">
+                              {intervention.type}
+                            </h3>
+                            <p className="text-gray-300 text-sm">
+                              🌿 {intervention.title}
+                            </p>
+                          </div>
+                        </div>
+                        {/* <Badge
               className={`px-2 py-1 rounded-lg ${
                 intervention.isDone ? "bg-green-500" : "bg-yellow-500"
               } text-white font-semibold`}
             >
               {intervention.isDone ? "Terminé" : "En cours"}
             </Badge> */}
-            <UpdateInterventionStatusSwitch initialStatus={intervention.isDone} interventionId={intervention.id} />
-          </div>
+                        <UpdateInterventionStatusSwitch
+                          initialStatus={intervention.isDone}
+                          interventionId={intervention.id}
+                        />
+                      </div>
 
-          <div className="flex items-center justify-between mt-3">
-            <div className="flex items-center text-gray-300 gap-2">
-              <CalendarDays className="w-4 h-4" />
-              <span className="text-sm">
-                {new Date(intervention.created_at).toLocaleDateString()}
-              </span>
-            </div>
+                      <div className="flex items-center justify-between mt-3">
+                        <div className="flex items-center text-gray-300 gap-2">
+                          <CalendarDays className="w-4 h-4" />
+                          <span className="text-sm">
+                            {new Date(
+                              intervention.created_at
+                            ).toLocaleDateString()}
+                          </span>
+                        </div>
 
-            <div className="flex items-center gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => router.push(`/dashboard-landowner/interventions/details/${intervention.id}`)}
-                className="font-poetsen"
+                        <div className="flex items-center gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() =>
+                              router.push(
+                                `/dashboard/landowner/interventions/details/${intervention.id}`
+                              )
+                            }
+                            className="font-poetsen"
+                          >
+                            Détail
+                          </Button>
+
+                          <ConfirmDialog
+                            trigger={
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                className="font-poetsen flex items-center gap-1"
+                              >
+                                <Trash size={16} /> Supprimer
+                              </Button>
+                            }
+                            title="Confirmation de suppression"
+                            description="Êtes-vous sûr de vouloir supprimer cette intervention ? Cette action est irréversible."
+                            confirmText="Oui, supprimer"
+                            cancelText="Annuler"
+                            onConfirm={() =>
+                              handleDeleteIntervention(intervention.id)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+
+            {!showAll && interventions.length > 3 && (
+              <button
+                onClick={() => setShowAll(true)}
+                className="mt-4 self-center px-4 py-2 bg-sidebar-foreground text-white font-semibold rounded-lg hover:bg-green-600 transition-all duration-300 ease-in-out"
               >
-                Détail
-              </Button>
-
-              <ConfirmDialog
-                trigger={
-                  <Button size="sm" variant="destructive" className="font-poetsen flex items-center gap-1">
-                    <Trash size={16} /> Supprimer
-                  </Button>
-                }
-                title="Confirmation de suppression"
-                description="Êtes-vous sûr de vouloir supprimer cette intervention ? Cette action est irréversible."
-                confirmText="Oui, supprimer"
-                cancelText="Annuler"
-                onConfirm={() => handleDeleteIntervention(intervention.id)}
-              />
-            </div>
+                Voir plus
+              </button>
+            )}
           </div>
-        </div>
-      ))}
-    </div>
-  )}
-
-  {!showAll && interventions.length > 3 && (
-    <button
-      onClick={() => setShowAll(true)}
-      className="mt-4 self-center px-4 py-2 bg-sidebar-foreground text-white font-semibold rounded-lg hover:bg-green-600 transition-all duration-300 ease-in-out"
-    >
-      Voir plus
-    </button>
-  )}
-</div>
-
         </div>
       </div>
 

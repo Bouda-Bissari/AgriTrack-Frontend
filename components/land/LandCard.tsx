@@ -34,11 +34,10 @@ export default function LandCard({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lands"] });
     },
-    
   });
 
   const handleDelete = async () => {
-    const promise = deleteMutation.mutateAsync(); 
+    const promise = deleteMutation.mutateAsync();
     toast.promise(promise, {
       loading: "Suppression du terrain...",
       success: "Terrain supprimé avec succès !",
@@ -53,11 +52,11 @@ export default function LandCard({
           <CardTitle className="text-xl font-poetsen">{name}</CardTitle>
         </div>
         <div className="flex justify-between space-x-3">
-        <Badge variant="outline" className="text-sm capitalize">
-          {land_status}
-        </Badge>
+          <Badge variant="outline" className="text-sm capitalize">
+            {land_status}
+          </Badge>
 
-        <ConfirmDialog
+          <ConfirmDialog
             trigger={
               <Button variant="destructive" size="icon" className="w-full p-3">
                 <Trash2 className="w-5 h-5" />
@@ -70,7 +69,6 @@ export default function LandCard({
             onConfirm={handleDelete}
           />
         </div>
-        
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex items-center gap-2">
@@ -88,12 +86,16 @@ export default function LandCard({
           >
             Voir les détails <ArrowUpRight className="ml-2 w-4 h-4" />
           </Button>
-       
 
-          <Button onClick={() => router.push(`/dashboard-landowner/interventions/add-intervention-page/${id}`)}><Plus /> Intervention </Button>
-
-
-
+          <Button
+            onClick={() =>
+              router.push(
+                `/dashboard/landowner/interventions/add-intervention-page/${id}`
+              )
+            }
+          >
+            <Plus /> Intervention{" "}
+          </Button>
         </div>
       </CardContent>
     </Card>

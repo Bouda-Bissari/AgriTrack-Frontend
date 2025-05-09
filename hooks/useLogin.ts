@@ -5,19 +5,26 @@ import apiClient from "@/configs/axios";
 import { useRouter } from "next/navigation";
 
 export const useLogin = () => {
-  const setUser = useUserStore((state:any) => state.setUser);
+  const setUser = useUserStore((state: any) => state.setUser);
   const setToken = useUserStore((state: any) => state.setToken);
 
-  const route = useRouter()
+  const route = useRouter();
   const login = async (email: string, password: string) => {
     return toast.promise(
       apiClient.post("/login", { email, password }),
       {
         loading: "Connexion...",
         success: (response) => {
-          setUser(response.data.user, response.data.token);
-          setToken(response.data.token);
-          route.push("/dashboard-landowner")
+
+          const { user, token } = response.data;
+
+          setUser(user, token);
+          setToken(token);
+          if (user.role === "admin") {
+            route.push("/dashboard/admin/statistics");
+          } else {
+            route.push("/dashboard/landowner/statistics");
+          }
           return "Bienvenu !";
         },
         error: (error) => {
